@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">CryptoTracker</string>
+    <string name="search">Search</string>
+    <string name="favourites">Favourites</string>
+    <string name="home">Home</string>
+    <string name="start_service">Start service</string>
+    <string name="stop_service" >Stop service</string>
+
+    <string name="disclaimer">This project was built in the context of the lecture "development of mobile applications" at the state corporate university in Mannheim, Germany. It is only used for educational purposes. </string>
+</resources>
