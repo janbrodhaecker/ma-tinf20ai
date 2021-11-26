@@ -43,9 +43,7 @@ class CoinCapApi {
 
             val assets = Asset.fromJsonArray(assetsArray)
             successCallback.invoke(assets)
-        }, {
-
-        })
+        }, { errorCallback.invoke(it) })
     }
 
     fun getAssetHistory(

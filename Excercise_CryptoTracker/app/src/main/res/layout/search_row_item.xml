@@ -7,4 +7,13 @@
 
     <!-- It should show the name and the symbol of an asset, also the @drawable/star for selecting a a favourite -->
 
+    <TextView
+        android:id="@+id/tv_asset_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/iv_star"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

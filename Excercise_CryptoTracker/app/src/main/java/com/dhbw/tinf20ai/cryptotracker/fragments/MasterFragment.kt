@@ -33,9 +33,9 @@ class MasterFragment : Fragment(), OnListRecyclerViewClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        model.data.observe(viewLifecycleOwner, {
-            // TODO: display the assets in the SearchListRecyclerListView
-            // TODO: enable the SearchField
+        model.allAssets.observe(viewLifecycleOwner, {
+            binding.recyclerView.adapter = SearchListRecyclerView(requireActivity(), it, this)
+
         })
     }
 
