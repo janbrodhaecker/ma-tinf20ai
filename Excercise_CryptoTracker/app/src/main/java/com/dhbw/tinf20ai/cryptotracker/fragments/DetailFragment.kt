@@ -52,8 +52,12 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         model.selectedAsset.observe(viewLifecycleOwner, Observer {
-            // TODO: Show the details of the given asset
-            // TODO: also initialize the chart!
+
+            CoinCapApi.instance.getAssetHistory(it.id, {
+                initializeLineChart(it)
+            }, {
+                // TODO log error
+            })
         })
     }
 

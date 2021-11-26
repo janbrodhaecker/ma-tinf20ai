@@ -35,14 +35,15 @@ class SearchListRecyclerView(
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvName = view.findViewById<TextView>(R.id.tv_asset_name)
         val ivStar = view.findViewById<ImageView>(R.id.iv_star)
-        // TODO: create a ViewHolder for the given view and initialize all the fields from search_row_item.xml
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         viewHolder.tvName.text = assets[position].name
 
+        viewHolder.itemView.setOnClickListener {
+            itemClickListener?.onItemClick(viewHolder.itemView, assets[position])
+        }
 
-        // TODO: initialize all fields from the ViewHolder
         // TODO: when the user clicks on the item, it should invoke the call back itemClickListener
         // TODO: when the user clicks on the star, the asset should be added as a favourite
         // TODO: a favourite should be marked with a yellow star - non favourites should be marked with a grey star
