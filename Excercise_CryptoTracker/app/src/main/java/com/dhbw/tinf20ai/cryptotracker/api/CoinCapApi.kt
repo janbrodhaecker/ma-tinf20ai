@@ -29,22 +29,49 @@ class CoinCapApi {
 
     // Hint: for all methods, the method performGetRequest can be reused!
 
-    fun getAssets(successCallback: (Array<Asset>) -> Unit, errorCallback: (errorMessage: String?) -> Unit) {
+    fun getAssets(
+        successCallback: (Array<Asset>) -> Unit,
+        errorCallback: (errorMessage: String?) -> Unit
+    ) {
         // TODO: call https://api.coincap.io/v2/assets to get all Crypto-Assets, invoke the successCallback with the serialized values
         // Optional: handle the error case
+
+        performGetRequest("assets", {
+            val responseBodyAsString = it.string()
+            val rootJSON = JSONObject(responseBodyAsString)
+            val assetsArray = rootJSON.getJSONArray("data")
+
+            val assets = Asset.fromJsonArray(assetsArray)
+            successCallback.invoke(assets)
+        }, {
+
+        })
     }
 
-    fun getAssetHistory(assetId: String, successCallback: (Array<AssetPriceHistory>) -> Unit, errorCallback: (errorMessage: String?) -> Unit) {
+    fun getAssetHistory(
+        assetId: String,
+        successCallback: (Array<AssetPriceHistory>) -> Unit,
+        errorCallback: (errorMessage: String?) -> Unit
+    ) {
         // TODO: call https://api.coincap.io/v2/assets/{{assetId}}/history to get all the price histories, invoke the successCallback with the serialized values
         // Optional: handle the error case
     }
 
-    fun getAssetPrice(assetId: String, successCallback: (AssetPrice) -> Unit, errorCallback: (errorMessage: String?) -> Unit) {
+    fun getAssetPrice(
+        assetId: String,
+        successCallback: (AssetPrice) -> Unit,
+        errorCallback: (errorMessage: String?) -> Unit
+    ) {
         // TODO: call https://api.coincap.io/v2/assets/{{assetId}} to get information about the asset, invoke the successCallback with the serialized values
         // Optional: handle the error case
     }
 
-    suspend fun getAllFavouritePrices(context: Context, favouriteAssetIds: Set<String>, successCallback: (ArrayList<AssetPrice>) -> Unit, errorCallback: (errorMessage: String?) -> Unit) {
+    suspend fun getAllFavouritePrices(
+        context: Context,
+        favouriteAssetIds: Set<String>,
+        successCallback: (ArrayList<AssetPrice>) -> Unit,
+        errorCallback: (errorMessage: String?) -> Unit
+    ) {
         // TODO (Advanced): call https://api.coincap.io/v2/assets/{{assetId}} for all assetIds (multiple/parallel api calls) and invoke the success callback
         // Hint: the method getAssetPriceHistory can be reused with a so called flow
         // Optional: handle the error
@@ -53,24 +80,32 @@ class CoinCapApi {
     private fun performGetRequest(
         apiPath: String,
         successCallback: (responseBody: ResponseBody) -> Unit,
-        errorCallback: (errorMessage: String?) -> Unit) {
+        errorCallback: (errorMessage: String?) -> Unit
+    ) {
 
         val request: Request = Request.Builder()
             .url(ENDPOINT + apiPath)
             .build()
 
-        okHttpClient.newCall(request).enqueue(object: Callback {
+        okHttpClient.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                // TODO
+                errorCallback.invoke("Request failed! $e")
             }
 
             override fun onResponse(call: Call, response: Response) {
-                // TODO
+                if (response.isSuccessful) {
+                    response.body?.let { successCallback.invoke(it) } ?: run {
+                        errorCallback.invoke("Body was null!")
+                    }
+                } else {
+                    errorCallback.invoke("Response was not successful: ${response.code}")
+                }
             }
         })
     }
 
-    private suspend fun getAssetPriceHistory(assetId: String): AssetPrice = suspendCoroutine { cont ->
-        getAssetPrice(assetId, { cont.resume(it) }, {/* TODO */})
-    }
+    private suspend fun getAssetPriceHistory(assetId: String): AssetPrice =
+        suspendCoroutine { cont ->
+            getAssetPrice(assetId, { cont.resume(it) }, {/* TODO */ })
+        }
 }

@@ -3,7 +3,7 @@ package com.dhbw.tinf20ai.cryptotracker.api.model
 import org.json.JSONArray
 import org.json.JSONObject
 
-class Asset(
+class   Asset(
     var id: String,
     var symbol: String,
     var name: String,
@@ -17,13 +17,27 @@ class Asset(
 
     companion object {
         private fun fromJson(json: JSONObject): Asset {
-            // TODO: create Asset from JSONOObject
-            return Asset("id", "symbol", "name", 0.00, 0.00, 0.00, 0.00, 0.00, 0.00)
+            return Asset(
+                json.optString("id"),
+                json.optString("symbol"),
+                json.optString("name"),
+                json.optDouble("supply"),
+                json.optDouble("markedCapUsd"),
+                json.optDouble("volumeUsd24Hr"),
+                json.optDouble("priceUsd"),
+                json.optDouble("changePercent24HR"),
+                json.optDouble("vwap24Hr")
+            )
         }
 
         fun fromJsonArray(jsonArray: JSONArray): Array<Asset> {
-            // TODO: create Array of Assets from JSONArray
-            return ArrayList<Asset>().toTypedArray()
+            var result = ArrayList<Asset>()
+            for (i in 0 until jsonArray.length()) {
+                var tempJSONObject = jsonArray.getJSONObject(i)
+                var tempAsset = fromJson(tempJSONObject)
+                result.add(tempAsset)
+            }
+            return result.toTypedArray()
         }
     }
 

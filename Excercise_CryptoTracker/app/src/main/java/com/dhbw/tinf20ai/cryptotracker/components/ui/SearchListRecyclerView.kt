@@ -35,7 +35,6 @@ class SearchListRecyclerView(
         // TODO: create a ViewHolder for the given view and initialize all the fields from search_row_item.xml
     }
 
-
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         // TODO: initialize all fields from the ViewHolder
         // TODO: when the user clicks on the item, it should invoke the call back itemClickListener
