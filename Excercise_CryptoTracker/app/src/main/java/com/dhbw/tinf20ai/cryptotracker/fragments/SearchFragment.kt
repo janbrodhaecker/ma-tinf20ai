@@ -27,13 +27,7 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        // TODO: post on value of CoinCapApi.getAssets() to model
         // SearchFragment -> NavHostFragment[MasterFragment -> DetailFragment]
-        CoinCapApi.instance.getAssets({
-          Log.d(SearchFragment::class.simpleName, "Assets: $it")
-            model.allAssets.postValue(it)
-        }, { 
-            Log.e(SearchFragment::class.simpleName, it ?: "Could not get Assets!")
-        })
     }
 }
