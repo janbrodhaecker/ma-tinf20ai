@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/CryptoTracker.iml" filepath="$PROJECT_DIR$/.idea/modules/CryptoTracker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/CryptoTracker.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/CryptoTracker.app.iml" />
+    </modules>
+  </component>
+</project>

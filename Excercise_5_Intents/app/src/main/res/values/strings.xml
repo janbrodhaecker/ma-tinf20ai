@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Ubeung5</string>
+    <string name="implicit_intent">Implicit Intent</string>
+    <string name="explicit_intent">Explicit Intent</string>
+    <string name="enter_text">Enter Text</string>
+</resources>
