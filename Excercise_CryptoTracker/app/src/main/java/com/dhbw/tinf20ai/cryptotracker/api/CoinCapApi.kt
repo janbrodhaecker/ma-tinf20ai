@@ -34,7 +34,16 @@ class CoinCapApi {
         errorCallback: (errorMessage: String?) -> Unit
     ) {
         // TODO: call https://api.coincap.io/v2/assets to get all Crypto-Assets, invoke the successCallback with the serialized values
-        // Optional: handle the error case
+        performGetRequest("assets",
+            {
+                val jsonResponse = JSONObject(it.string())
+                val dataJsonArray = jsonResponse.getJSONArray("data")
+                val assetsArray = Asset.fromJsonArray(dataJsonArray)
+                successCallback.invoke(assetsArray)
+            }, {
+                // Optional: handle the error case
+                errorCallback.invoke(it)
+            })
     }
 
     fun getAssetHistory(
@@ -78,11 +87,19 @@ class CoinCapApi {
 
         okHttpClient.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                // TODO
+                errorCallback.invoke(e.localizedMessage)
             }
 
             override fun onResponse(call: Call, response: Response) {
-                // TODO
+                if (response.isSuccessful) {
+                    response.body?.let {
+                        successCallback(it)
+                    } ?:run {
+                        errorCallback("Response Body was empty!")
+                    }
+                } else {
+                    errorCallback.invoke("Response was not successful!")
+                }
             }
         })
     }

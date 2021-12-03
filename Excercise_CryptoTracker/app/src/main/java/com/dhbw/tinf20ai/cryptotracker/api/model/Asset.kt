@@ -17,13 +17,26 @@ class   Asset(
 
     companion object {
         private fun fromJson(json: JSONObject): Asset {
-            // TODO: create Asset from JSONOObject
-            return Asset("id", "symbol", "name", 0.00, 0.00, 0.00, 0.00, 0.00, 0.00)
+            return Asset(
+                json.optString("id"),
+                json.optString("symbol"),
+                json.optString("name"),
+                json.optDouble("supply"),
+                json.optDouble("markedCapUsd"),
+                json.optDouble("volumeUsd24Hr"),
+                json.optDouble("priceUsd"),
+                json.optDouble("changePercent24HR"),
+                json.optDouble("vwap24Hr"),
+            )
         }
 
         fun fromJsonArray(jsonArray: JSONArray): Array<Asset> {
-            // TODO: create Array of Assets from JSONArray
-            return ArrayList<Asset>().toTypedArray()
+            val result = ArrayList<Asset>()
+            for (idx in 0 until jsonArray.length()) {
+                val tempJSONObject = jsonArray.optJSONObject(idx)
+                result.add(fromJson(tempJSONObject))
+            }
+            return result.toTypedArray()
         }
     }
 
